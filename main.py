@@ -3,22 +3,23 @@ import random
 MAX_LINES = 3
 MAX_BET = 100
 MIN_BET = 1
+MIN_DEPOSIT = 3
 
 ROWS = 3
 COLS = 3
 
 symbol_count = {
-    "A": 2,
-    "B": 4,
+    "A": 4,
+    "B": 5,
     "C": 6,
-    "D": 8
+    "D": 6
 }
 
 symbol_value = {
-    "A": 5,
-    "B": 4,
-    "C": 3,
-    "D": 2
+    "A": 3,
+    "B": 2,
+    "C": 1,
+    "D": 1
 }
 
 
@@ -74,10 +75,10 @@ def deposit():
         amount = input("What would you like to deposit? $")
         if amount.isdigit():
             amount = int(amount)
-            if amount > 0:
+            if amount >= MIN_DEPOSIT:
                 break
             else:
-                print("Amount must be greater than 0.")
+                print(f"Deposit must be greater than or equal to ${MIN_DEPOSIT}.")
         else:
             print("Please enter a number.")
 
@@ -138,6 +139,13 @@ def main():
     balance = deposit()
     while True:
         print(f"Current balance is: ${balance}")
+        if balance < MIN_DEPOSIT:
+            depositAgain = input("You do not have enough money left to play. The game will end unless you make another deposit. Press 'd' to make another deposit.").lower()
+            if depositAgain == "d":
+                balance += deposit()
+            else:
+                break
+
         answer = input("Press enter to play. (q tp quit).")
         if answer == "q":
             break
